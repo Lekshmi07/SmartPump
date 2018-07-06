@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "KWATesting";
     private static final int PHONE_REQUEST = 101;
+    private static final int SMS_REQUEST = 102;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,15 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, "onCreate: Phone permitted");
         }
 
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
+            Log.i(TAG, "onCreate: No permission.");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, SMS_REQUEST);
+        } else {
+            Log.i(TAG, "onCreate: Messaging permitted");
+        }
+
     }
 
 
@@ -64,6 +74,14 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         if (requestCode == PHONE_REQUEST) {
+            if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Log.i(TAG, "onRequestPermissionsResult: Permission granted");
+                Toast.makeText(this, "No permission to use Phone. App won't work as expected", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.i(TAG, "onRequestPermissionsResult: Permission denied");
+            }
+        }
+        if (requestCode == SMS_REQUEST) {
             if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Log.i(TAG, "onRequestPermissionsResult: Permission granted");
                 Toast.makeText(this, "No permission to use Phone. App won't work as expected", Toast.LENGTH_SHORT).show();

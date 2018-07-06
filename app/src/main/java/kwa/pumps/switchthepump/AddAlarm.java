@@ -18,52 +18,96 @@ import java.util.Calendar;
 public class AddAlarm extends AppCompatActivity {
 
 
-    Button on,off;
-    TimePicker timpick;
-    EditText phone;
-    private static final String TAG = "KWATest: AddShift";
-
+    TimePicker setTime;
+    Button bt_ON,bt_OFF;
+    EditText Phone;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_alarm);
 
-        Calendar now = Calendar.getInstance();
-        now.add(Calendar.MINUTE, 1);
+        final Context context = getApplicationContext();
 
-        timpick=findViewById(R.id.PickTime);
-        timpick.setCurrentHour(now.get(Calendar.HOUR_OF_DAY));
-        timpick.setCurrentMinute(now.get(Calendar.MINUTE));
+        bt_ON=findViewById(R.id.ON);
+        bt_OFF=findViewById(R.id.OFF);
 
-
-        on=findViewById(R.id.ON);
-        on.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Calendar cal = Calendar.getInstance();
-                cal.set(
-                        timpick.getCurrentHour(),
-                        timpick.getCurrentMinute(),
-                        0);
-
-                phone=findViewById(R.id.Phone);
-                String ph=phone.getText().toString()+",,,,1";
-                int alarmID= (int) cal.getTimeInMillis();
+        Calendar now=Calendar.getInstance();
+        setTime=findViewById(R.id.PickTime);
+        setTime.setCurrentHour(now.get(Calendar.HOUR_OF_DAY));
+        setTime.setCurrentMinute(now.get(Calendar.MINUTE));
 
 
-                AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                Context context = getApplicationContext();
-                Intent myIntent=new Intent(context,AlarmReceiver.class);
-                myIntent.putExtra("Number",ph);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, myIntent, 0);
-                assert manager!=null;
-                manager.setRepeating(AlarmManager.RTC_WAKEUP, alarmID,AlarmManager.INTERVAL_DAY, pendingIntent);
+        try {
+            bt_ON.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                Log.i(TAG, "onClick: Shift set for " + cal.getTimeInMillis());
-                Toast.makeText(context, "Shift set", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
+
+                    Phone = findViewById(R.id.Phone);
+                    Calendar cal = Calendar.getInstance();
+
+                    cal.set(Calendar.HOUR_OF_DAY, setTime.getCurrentHour());
+                    cal.set(Calendar.MINUTE, setTime.getCurrentMinute());
+                    Toast.makeText(context, "Alarm is set @" + cal.getTime(), Toast.LENGTH_SHORT).show();
+
+                    AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+
+                    Intent myIntent = new Intent(context, AlarmReceiver.class);
+
+                    String PhNo = Phone.getText().toString()+",1";
+                    myIntent.putExtra("Number", PhNo);
+                    myIntent.putExtra("flag", 1);
+                    int alarmID = (int) cal.getTimeInMillis();
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, myIntent, 0);
+
+
+                    assert manager != null;
+                    //manager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+
+                    manager.setRepeating(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+
+                    Toast.makeText(context, "Shift set", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            bt_OFF.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+                    Phone = findViewById(R.id.Phone);
+                    Calendar cal = Calendar.getInstance();
+
+                    cal.set(Calendar.HOUR_OF_DAY, setTime.getCurrentHour());
+                    cal.set(Calendar.MINUTE, setTime.getCurrentMinute());
+                    Toast.makeText(context, "Alarm is set @" + cal.getTime(), Toast.LENGTH_SHORT).show();
+
+                    AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+
+                    Intent myIntent = new Intent(context, AlarmReceiver.class);
+
+                    String PhNo = Phone.getText().toString()+",2";
+                    myIntent.putExtra("Number", PhNo);
+
+                    int alarmID = (int) cal.getTimeInMillis();
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, myIntent, 0);
+
+
+                    assert manager != null;
+                    manager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+
+
+                    Toast.makeText(context, "Shift set", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        }
+        catch (NullPointerException e) {
+            Toast.makeText(this, "Null value", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 }

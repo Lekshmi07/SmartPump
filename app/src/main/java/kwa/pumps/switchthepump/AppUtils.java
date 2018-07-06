@@ -34,7 +34,8 @@ public class AppUtils
                     .replace("|", "%7C").replace("}", "%7D"));
 
 try {
-    Uri uri = Uri.parse(number);
+    String no="tel:"+number;
+    Uri uri = Uri.parse(no);
     Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show();
     Toast.makeText(context, number, Toast.LENGTH_SHORT).show();
     Intent i = new Intent(Intent.ACTION_CALL, uri);
