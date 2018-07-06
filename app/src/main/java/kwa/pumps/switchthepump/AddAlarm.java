@@ -22,6 +22,7 @@ public class AddAlarm extends AppCompatActivity {
     Button bt_ON,bt_OFF;
     EditText Phone;
     private DBManager db;
+    boolean mFlag;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -30,6 +31,13 @@ public class AddAlarm extends AppCompatActivity {
 
         final Context context = getApplicationContext();
         db=new DBManager(context);
+        final int mValue = db.numOfRows();
+        if (mValue == 0) {
+            mFlag = true;
+        } else {
+            mFlag = false;
+        }
+
 
         bt_ON=findViewById(R.id.ON);
         bt_OFF=findViewById(R.id.OFF);
@@ -61,7 +69,7 @@ public class AddAlarm extends AppCompatActivity {
                     String num=Phone.getText().toString();
                     String PhNo = num+",1";
                     myIntent.putExtra("Number", PhNo);
-                    myIntent.putExtra("flag", 1);
+
                     int alarmID = (int) cal.getTimeInMillis();
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, myIntent, 0);
 
@@ -73,13 +81,20 @@ public class AddAlarm extends AppCompatActivity {
 
                     Toast.makeText(context, "Shift set", Toast.LENGTH_SHORT).show();
 
-                    if (db.getnumber(Integer.parseInt(num))==true)
-                    {
-                       db.addPendingIntent_ON(Integer.parseInt(num),alarmID);
+                    if(mFlag) {
+
+
+                            db.insertUserDetails(Integer.parseInt(num), "ON", "OFF", alarmID);
+
                     }
                     else
                     {
-                        db.insertUserDetails(Integer.parseInt(num), "ON", "OFF", alarmID);
+                        if (db.getnumber(Integer.parseInt(num)) == true) {
+                            db.addPendingIntent_ON(Integer.parseInt(num), alarmID);
+                        } else {
+                            db.insertUserDetails(Integer.parseInt(num), "ON", "OFF", alarmID);
+                        }
+
                     }
                 }
             });
@@ -120,7 +135,7 @@ public class AddAlarm extends AppCompatActivity {
                     Toast.makeText(context, "Shift set", Toast.LENGTH_SHORT).show();
 
 
-                        db.addPendingIntent_OFF(Integer.parseInt(num),alarmID);
+                    db.addPendingIntent_OFF(Integer.parseInt(num),alarmID);
                     }
                     else {
                         Toast.makeText(context, "First set time to switch on the pump", Toast.LENGTH_SHORT).show();
