@@ -24,7 +24,7 @@ public class AppUtils extends Activity
 {
     private static final String TAG = "KWATest: AppUtils";
 
-    DBManager db=new DBManager(AppUtils.this);
+
 
     static void dial(String number, Context context) {
 
@@ -50,39 +50,61 @@ public class AppUtils extends Activity
     Toast.makeText(context, number, Toast.LENGTH_SHORT).show();
     Intent i = new Intent(Intent.ACTION_CALL, uri);
     int ph= Integer.parseInt(number.substring(0,9));
-    Cursor cur=db.getPowerStatus(ph);
+
+    CheckStatus ch = null;
 
 
-    if(cur.getCount()!=0) {
+    if (ch.check(ph)) {
 
-        cur.moveToFirst();
-        String power=cur.getString(cur.getColumnIndex(db.POWER));
-        if(power=="ON") {
-            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M
-                    || ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                Log.i(TAG, "makeCall: Calling Phone activity");
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(i);
-            } else {
-                Log.e(TAG, "makeCall: No permission");
-                Toast.makeText(context, "No permission for Phone", Toast.LENGTH_SHORT).show();
-            }
-        }
-        //Snooze for 5 minutes
-
-        else {
-            Context context1=getApplicationContext();
-            AlarmManager alarmManager=(AlarmManager) getSystemService(ALARM_SERVICE);
-            Intent intent = new Intent(context1, AlarmReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context1, 0, intent, 0);
-
-            alarmManager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + 5*60 * 1000, pendingIntent);
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+                || ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            Log.i(TAG, "makeCall: Calling Phone activity");
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
+        } else {
+            Log.e(TAG, "makeCall: No permission");
+            Toast.makeText(context, "No permission for Phone", Toast.LENGTH_SHORT).show();
         }
     }
+    else
+    {
+
+    }
+
+
         } catch (Exception e) {
             //getAlertDialog().setMessage("Invalid number");
             e.printStackTrace();
         }
 
+    }
+    public class CheckStatus extends Activity
+    {
+        public boolean check(int phno)
+        {
+            DBManager db=new DBManager(AppUtils.this);
+            Cursor cur=db.getPowerStatus(phno);
+            if(cur.getCount()!=0) {
+
+                cur.moveToFirst();
+                String power=cur.getString(cur.getColumnIndex(db.POWER));
+                if(power=="ON") {
+                    return true;
+                }
+                //Snooze for 5 minutes
+
+                else {
+                    Context context1=getApplicationContext();
+                    AlarmManager alarmManager=(AlarmManager) getSystemService(ALARM_SERVICE);
+                    Intent intent = new Intent(context1, AlarmReceiver.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context1, 0, intent, 0);
+
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + 5*60 * 1000, pendingIntent);
+
+
+                }
+                }
+            return false;
+        }
     }
 }
