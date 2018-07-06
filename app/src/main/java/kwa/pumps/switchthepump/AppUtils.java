@@ -26,7 +26,7 @@ public class AppUtils extends Activity
 
     DBManager db=new DBManager(AppUtils.this);
 
-    void dial(String number, Context context) {
+    static void dial(String number, Context context) {
 
 
 
@@ -68,6 +68,8 @@ public class AppUtils extends Activity
                 Toast.makeText(context, "No permission for Phone", Toast.LENGTH_SHORT).show();
             }
         }
+        //Snooze for 5 minutes
+
         else {
             Context context1=getApplicationContext();
             AlarmManager alarmManager=(AlarmManager) getSystemService(ALARM_SERVICE);
