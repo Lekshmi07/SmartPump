@@ -21,6 +21,7 @@ public class AddAlarm extends AppCompatActivity {
     TimePicker setTime;
     Button bt_ON,bt_OFF;
     EditText Phone;
+    private DBManager db;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -28,6 +29,7 @@ public class AddAlarm extends AppCompatActivity {
         setContentView(R.layout.activity_add_alarm);
 
         final Context context = getApplicationContext();
+        db=new DBManager(context);
 
         bt_ON=findViewById(R.id.ON);
         bt_OFF=findViewById(R.id.OFF);
@@ -56,7 +58,8 @@ public class AddAlarm extends AppCompatActivity {
 
                     Intent myIntent = new Intent(context, AlarmReceiver.class);
 
-                    String PhNo = Phone.getText().toString()+",1";
+                    String num=Phone.getText().toString();
+                    String PhNo = num+",1";
                     myIntent.putExtra("Number", PhNo);
                     myIntent.putExtra("flag", 1);
                     int alarmID = (int) cal.getTimeInMillis();
@@ -69,6 +72,15 @@ public class AddAlarm extends AppCompatActivity {
                     manager.setRepeating(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
 
                     Toast.makeText(context, "Shift set", Toast.LENGTH_SHORT).show();
+
+                    if (db.getnumber(Integer.parseInt(num))==true)
+                    {
+                       db.addPendingIntent_ON(Integer.parseInt(num),alarmID);
+                    }
+                    else
+                    {
+                        db.insertUserDetails(Integer.parseInt(num), "ON", "OFF", alarmID);
+                    }
                 }
             });
 
@@ -76,9 +88,14 @@ public class AddAlarm extends AppCompatActivity {
                 @Override
                 public void onClick(View v)
                 {
+
+
                     Phone = findViewById(R.id.Phone);
+                    String num=Phone.getText().toString();
                     Calendar cal = Calendar.getInstance();
 
+                    if (db.getnumber(Integer.parseInt(num)))
+                    {
                     cal.set(Calendar.HOUR_OF_DAY, setTime.getCurrentHour());
                     cal.set(Calendar.MINUTE, setTime.getCurrentMinute());
                     Toast.makeText(context, "Alarm is set @" + cal.getTime(), Toast.LENGTH_SHORT).show();
@@ -88,7 +105,8 @@ public class AddAlarm extends AppCompatActivity {
 
                     Intent myIntent = new Intent(context, AlarmReceiver.class);
 
-                    String PhNo = Phone.getText().toString()+",2";
+
+                    String PhNo = num+",2";
                     myIntent.putExtra("Number", PhNo);
 
                     int alarmID = (int) cal.getTimeInMillis();
@@ -96,10 +114,17 @@ public class AddAlarm extends AppCompatActivity {
 
 
                     assert manager != null;
-                    manager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+                    manager.setRepeating(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
 
 
                     Toast.makeText(context, "Shift set", Toast.LENGTH_SHORT).show();
+
+
+                        db.addPendingIntent_OFF(Integer.parseInt(num),alarmID);
+                    }
+                    else {
+                        Toast.makeText(context, "First set time to switch on the pump", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
             });
