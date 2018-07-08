@@ -48,6 +48,7 @@ public class CancelAlarm extends AppCompatActivity {
                     aManager.cancel(pIntent_off);
                     Ph.setText("");
                     Toast.makeText(CancelAlarm.this, "Alarm cleared", Toast.LENGTH_SHORT).show();
+                    db.deleteRow(phone);
                 }
                 }
                 else {

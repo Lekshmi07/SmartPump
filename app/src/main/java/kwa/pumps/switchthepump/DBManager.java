@@ -124,6 +124,13 @@ public class DBManager extends SQLiteOpenHelper {
         db.update(TABLE_SMS,contentValues,MOBILE_NO+"="+no,null);
 
     }
+
+    public void deleteRow(String number)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + TABLE_SMS+ " WHERE "+MOBILE_NO+"='"+number+"'");
+        db.close();
+    }
   /*  public Cursor getDataUsername( String name) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select " + POCKET_DIARY_REGISTRATION_COLUMN_USERNAME + " from " + POCKET_DIARY_TABLE_REGISTRATION + " where " + POCKET_DIARY_REGISTRATION_COLUMN_USERNAME + " = " + "'" + name + "'", null);
