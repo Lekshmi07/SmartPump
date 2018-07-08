@@ -41,10 +41,12 @@ public class CancelAlarm extends AppCompatActivity {
 
                     AlarmManager aManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                     Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-                    PendingIntent pIntent = PendingIntent.getBroadcast(getApplicationContext(), Integer.parseInt(Pending_intent_to_on),intent,0);
+                    PendingIntent pIntent = PendingIntent.getBroadcast(getApplicationContext(),
+                            Integer.parseInt(Pending_intent_to_on),intent,0);
                     aManager.cancel(pIntent);
 
-                    PendingIntent pIntent_off = PendingIntent.getBroadcast(getApplicationContext(), Integer.parseInt(Pending_intent_to_off),intent,0);
+                    PendingIntent pIntent_off = PendingIntent.getBroadcast(getApplicationContext(),
+                            Integer.parseInt(Pending_intent_to_off),intent,0);
                     aManager.cancel(pIntent_off);
                     Ph.setText("");
                     Toast.makeText(CancelAlarm.this, "Alarm cleared", Toast.LENGTH_SHORT).show();
