@@ -31,11 +31,11 @@ public class DBManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL("create table " + TABLE_SMS + "("
-                + MOBILE_NO + " text,"
+                + MOBILE_NO + " text primary key,"
                 + POWER + " text,"
                 + PUMP + " text,"
-                + PENDING_INTENT_ON +" integer,"
-                + PENDING_INTENT_OFF +" integer)");
+                + PENDING_INTENT_ON +" text,"
+                + PENDING_INTENT_OFF +" text)");
 
     }
 
@@ -49,7 +49,7 @@ public class DBManager extends SQLiteOpenHelper {
         int numOfRows = (int) DatabaseUtils.queryNumEntries(sqLiteDatabase, TABLE_SMS);
         return numOfRows;
     }
-    public boolean insertUserDetails(String no,String power, String pump, int indent_to_on, int intent_to_off) {
+    public boolean insertUserDetails(String no,String power, String pump, String indent_to_on, String intent_to_off) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -109,7 +109,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     }
 
-    public void addPendingIntent_ON(String no, int pending) {
+    public void addPendingIntent_ON(String no, String pending) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(PENDING_INTENT_ON, pending);
@@ -117,7 +117,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     }
 
-    public void addPendingIntent_OFF(String no, int pending) {
+    public void addPendingIntent_OFF(String no, String pending) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(PENDING_INTENT_OFF, pending);

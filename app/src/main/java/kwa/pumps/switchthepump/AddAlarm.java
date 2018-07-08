@@ -19,8 +19,8 @@ public class AddAlarm extends AppCompatActivity {
 
     private String POWERON="ON";
     private String PUMPOFF="OFF";
-    private int intent_off=0;
-    private int intent_on=0;
+    private String intent_off="000";
+
 
 
     TimePicker setTime;
@@ -85,20 +85,21 @@ public class AddAlarm extends AppCompatActivity {
                     manager.setRepeating(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
 
                     Toast.makeText(context, "Shift set", Toast.LENGTH_SHORT).show();
+                    String alarmID_to_on= String.valueOf(alarmID);
 
 
                     if(mFlag) {
 
 
-                            db.insertUserDetails(num,POWERON , PUMPOFF, alarmID,intent_off);
+                            db.insertUserDetails(num,POWERON , PUMPOFF, alarmID_to_on,intent_off);
 
                     }
                     else
                     {
                         if (db.getnumber(num) == true) {
-                            db.addPendingIntent_ON(num, alarmID);
+                            db.addPendingIntent_ON(num, alarmID_to_on);
                         } else {
-                            db.insertUserDetails(num, POWERON, PUMPOFF, alarmID,intent_off);
+                            db.insertUserDetails(num, POWERON, PUMPOFF, alarmID_to_on,intent_off);
                         }
 
                     }
@@ -140,8 +141,10 @@ public class AddAlarm extends AppCompatActivity {
 
                     Toast.makeText(context, "Shift set", Toast.LENGTH_SHORT).show();
 
+                        String alarmID_to_off= String.valueOf(alarmID);
 
-                    db.addPendingIntent_OFF(num,alarmID);
+
+                    db.addPendingIntent_OFF(num,alarmID_to_off);
                     }
                     else {
                         Toast.makeText(context, "First set time to switch on the pump", Toast.LENGTH_SHORT).show();
