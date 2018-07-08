@@ -33,6 +33,8 @@ public class AppUtils
                             .replace("|", "%7C").replace("}", "%7D"));
 
         try {
+
+
             String num="tel:"+number;
             Uri uri = Uri.parse(num);
             Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show();
