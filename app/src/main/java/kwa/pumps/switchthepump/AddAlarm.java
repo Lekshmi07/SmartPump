@@ -19,6 +19,8 @@ public class AddAlarm extends AppCompatActivity {
 
     private String POWERON="ON";
     private String PUMPOFF="OFF";
+    private int intent_off=0;
+    private int intent_on=0;
 
 
     TimePicker setTime;
@@ -84,10 +86,11 @@ public class AddAlarm extends AppCompatActivity {
 
                     Toast.makeText(context, "Shift set", Toast.LENGTH_SHORT).show();
 
+
                     if(mFlag) {
 
 
-                            db.insertUserDetails(num, POWERON, PUMPOFF, alarmID);
+                            db.insertUserDetails(num,POWERON , PUMPOFF, alarmID,intent_off);
 
                     }
                     else
@@ -95,7 +98,7 @@ public class AddAlarm extends AppCompatActivity {
                         if (db.getnumber(num) == true) {
                             db.addPendingIntent_ON(num, alarmID);
                         } else {
-                            db.insertUserDetails(num, POWERON, PUMPOFF, alarmID);
+                            db.insertUserDetails(num, POWERON, PUMPOFF, alarmID,intent_off);
                         }
 
                     }

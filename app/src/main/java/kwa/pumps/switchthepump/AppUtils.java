@@ -23,7 +23,6 @@ import android.widget.Toast;
 public class AppUtils extends Activity
 {
     private static final String TAG = "KWATest: AppUtils";
-    private String POWERON="ON";
 
 
 
@@ -50,7 +49,7 @@ public class AppUtils extends Activity
     Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show();
     Toast.makeText(context, number, Toast.LENGTH_SHORT).show();
     Intent i = new Intent(Intent.ACTION_CALL, uri);
-    String ph= number.substring(0,10);
+    int ph= Integer.parseInt(number.substring(0,9));
 
     CheckStatus ch = null;
 
@@ -81,7 +80,7 @@ public class AppUtils extends Activity
     }
     public class CheckStatus extends Activity
     {
-        public boolean check(String phno)
+        public boolean check(int phno)
         {
             DBManager db=new DBManager(AppUtils.this);
             Cursor cur=db.getPowerStatus(phno);
@@ -89,7 +88,7 @@ public class AppUtils extends Activity
 
                 cur.moveToFirst();
                 String power=cur.getString(cur.getColumnIndex(db.POWER));
-                if(power==POWERON) {
+                if(power=="ON") {
                     return true;
                 }
                 //Snooze for 5 minutes

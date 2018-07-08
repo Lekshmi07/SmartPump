@@ -30,7 +30,12 @@ public class DBManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("create table " + TABLE_SMS + "(" + MOBILE_NO + " text," + POWER + " text," + PUMP + " text,"+ PENDING_INTENT_ON +"integer,"+ PENDING_INTENT_OFF +"integer)");
+        db.execSQL("create table " + TABLE_SMS + "("
+                + MOBILE_NO + " text,"
+                + POWER + " text,"
+                + PUMP + " text,"
+                + PENDING_INTENT_ON +" integer,"
+                + PENDING_INTENT_OFF +" integer)");
 
     }
 
@@ -44,7 +49,7 @@ public class DBManager extends SQLiteOpenHelper {
         int numOfRows = (int) DatabaseUtils.queryNumEntries(sqLiteDatabase, TABLE_SMS);
         return numOfRows;
     }
-    public void insertUserDetails(String no,String power, String pump, int indent_to_on) {
+    public boolean insertUserDetails(String no,String power, String pump, int indent_to_on, int intent_to_off) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -54,10 +59,10 @@ public class DBManager extends SQLiteOpenHelper {
         contentValues.put(POWER, power);
         contentValues.put(PUMP, pump);
         contentValues.put(PENDING_INTENT_ON,indent_to_on);
+        contentValues.put(PENDING_INTENT_ON,intent_to_off);
 
         db.insert(TABLE_SMS, null, contentValues);
-
-
+        return  true;
     }
 
     public boolean getnumber(String no) {
