@@ -30,7 +30,7 @@ public class DBManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("create table " + TABLE_SMS + "(" + MOBILE_NO + " integer primary key," + POWER + " text," + PUMP + " text,"+ PENDING_INTENT_ON +"integer,"+ PENDING_INTENT_OFF +"integer)");
+        db.execSQL("create table " + TABLE_SMS + "(" + MOBILE_NO + " text," + POWER + " text," + PUMP + " text,"+ PENDING_INTENT_ON +"integer,"+ PENDING_INTENT_OFF +"integer)");
 
     }
 
@@ -44,7 +44,7 @@ public class DBManager extends SQLiteOpenHelper {
         int numOfRows = (int) DatabaseUtils.queryNumEntries(sqLiteDatabase, TABLE_SMS);
         return numOfRows;
     }
-    public boolean insertUserDetails(int no,String power, String pump, int indent_to_on) {
+    public void insertUserDetails(String no,String power, String pump, int indent_to_on) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -57,10 +57,10 @@ public class DBManager extends SQLiteOpenHelper {
 
         db.insert(TABLE_SMS, null, contentValues);
 
-        return true;
+
     }
 
-    public boolean getnumber(int no) {
+    public boolean getnumber(String no) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE_SMS + " where " + MOBILE_NO + " = " + "'" + no + "'" , null);
         if (res.getCount()==0)
@@ -70,25 +70,25 @@ public class DBManager extends SQLiteOpenHelper {
         return true;
     }
 
-    public Cursor getPowerStatus(int no) {
+    public Cursor getPowerStatus(String no) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select " + POWER + " from " + TABLE_SMS + " where " + MOBILE_NO + " = " + "'" + no + "'" , null);
         return res;
     }
 
-    public Cursor getPumpStatus(int no) {
+    public Cursor getPumpStatus(String no) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select " + PUMP + " from " + TABLE_SMS + " where " + MOBILE_NO + " = " + "'" + no + "'" , null);
         return res;
     }
 
-    public Cursor getPendingIntent(int no) {
+    public Cursor getPendingIntent(String no) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select " + PENDING_INTENT_ON +"," +PENDING_INTENT_OFF + " from " + TABLE_SMS + " where " + MOBILE_NO + " = " + "'" + no + "'" , null);
         return res;
     }
 
-    public void updatePumpStatus(int no, String pump) {
+    public void updatePumpStatus(String no, String pump) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(PUMP, pump);
@@ -96,7 +96,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     }
 
-    public void updatePowerStatus(int no, String power) {
+    public void updatePowerStatus(String no, String power) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(POWER, power);
@@ -104,7 +104,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     }
 
-    public void addPendingIntent_ON(int no, int pending) {
+    public void addPendingIntent_ON(String no, int pending) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(PENDING_INTENT_ON, pending);
@@ -112,7 +112,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     }
 
-    public void addPendingIntent_OFF(int no, int pending) {
+    public void addPendingIntent_OFF(String no, int pending) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(PENDING_INTENT_OFF, pending);

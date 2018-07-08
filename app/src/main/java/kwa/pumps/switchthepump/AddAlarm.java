@@ -17,6 +17,9 @@ import java.util.Calendar;
 
 public class AddAlarm extends AppCompatActivity {
 
+    private String POWERON="ON";
+    private String PUMPOFF="OFF";
+
 
     TimePicker setTime;
     Button bt_ON,bt_OFF;
@@ -84,15 +87,15 @@ public class AddAlarm extends AppCompatActivity {
                     if(mFlag) {
 
 
-                            db.insertUserDetails(Integer.parseInt(num), "ON", "OFF", alarmID);
+                            db.insertUserDetails(num, POWERON, PUMPOFF, alarmID);
 
                     }
                     else
                     {
-                        if (db.getnumber(Integer.parseInt(num)) == true) {
-                            db.addPendingIntent_ON(Integer.parseInt(num), alarmID);
+                        if (db.getnumber(num) == true) {
+                            db.addPendingIntent_ON(num, alarmID);
                         } else {
-                            db.insertUserDetails(Integer.parseInt(num), "ON", "OFF", alarmID);
+                            db.insertUserDetails(num, POWERON, PUMPOFF, alarmID);
                         }
 
                     }
@@ -109,7 +112,7 @@ public class AddAlarm extends AppCompatActivity {
                     String num=Phone.getText().toString();
                     Calendar cal = Calendar.getInstance();
 
-                    if (db.getnumber(Integer.parseInt(num)))
+                    if (db.getnumber(num))
                     {
                     cal.set(Calendar.HOUR_OF_DAY, setTime.getCurrentHour());
                     cal.set(Calendar.MINUTE, setTime.getCurrentMinute());
@@ -135,7 +138,7 @@ public class AddAlarm extends AppCompatActivity {
                     Toast.makeText(context, "Shift set", Toast.LENGTH_SHORT).show();
 
 
-                    db.addPendingIntent_OFF(Integer.parseInt(num),alarmID);
+                    db.addPendingIntent_OFF(num,alarmID);
                     }
                     else {
                         Toast.makeText(context, "First set time to switch on the pump", Toast.LENGTH_SHORT).show();
