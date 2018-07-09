@@ -100,7 +100,7 @@ public class AddAlarm extends AppCompatActivity {
                     if(mFlag) {
 
 
-                            db.insertUserDetails(num,POWERON , PUMPOFF, alarmID_to_on,intent_off,time,time_off);
+                        db.insertUserDetails(num,POWERON , PUMPOFF, alarmID_to_on,intent_off,time,time_off);
 
                     }
                     else
@@ -128,9 +128,9 @@ public class AddAlarm extends AppCompatActivity {
 
                     if (db.getnumber(num))
                     {
-                    cal.set(Calendar.HOUR_OF_DAY, setTime.getCurrentHour());
-                    cal.set(Calendar.MINUTE, setTime.getCurrentMinute());
-                    cal.set(Calendar.SECOND,00);
+                        cal.set(Calendar.HOUR_OF_DAY, setTime.getCurrentHour());
+                        cal.set(Calendar.MINUTE, setTime.getCurrentMinute());
+                        cal.set(Calendar.SECOND,00);
 
                         if (cal.compareTo(now) <= 0) {
                             //Today Set time passed, count to tomorrow
@@ -144,27 +144,27 @@ public class AddAlarm extends AppCompatActivity {
                         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
 
-                    Intent myIntent = new Intent(context, AlarmReceiver.class);
+                        Intent myIntent = new Intent(context, AlarmReceiver.class);
 
 
-                    String PhNo = num+",2";
-                    myIntent.putExtra("Number", PhNo);
+                        String PhNo = num+",2";
+                        myIntent.putExtra("Number", PhNo);
 
-                    int alarmID = (int) cal.getTimeInMillis();
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-                    assert manager != null;
-                    manager.setRepeating(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+                        int alarmID = (int) cal.getTimeInMillis();
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-                    Toast.makeText(context, "Shift set", Toast.LENGTH_SHORT).show();
+                        assert manager != null;
+                        manager.setRepeating(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+
+
+                        Toast.makeText(context, "Shift set", Toast.LENGTH_SHORT).show();
 
                         String alarmID_to_off= String.valueOf(alarmID);
 
 
-                    db.addPendingIntent_OFF(num,alarmID_to_off);
-                    db.addTime_OFF(num,time);
+                        db.addPendingIntent_OFF(num,alarmID_to_off);
+                        db.addTime_OFF(num,time);
                     }
                     else {
                         Toast.makeText(context, "First set time to switch on the pump", Toast.LENGTH_SHORT).show();

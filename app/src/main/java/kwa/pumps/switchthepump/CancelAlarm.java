@@ -24,34 +24,36 @@ public class CancelAlarm extends AppCompatActivity {
 
         db=new DBManager(CancelAlarm.this);
 
-        Ph=findViewById(R.id.Phone);
-        final String phone=Ph.getText().toString();
+
         cancel=findViewById(R.id.Cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Ph=findViewById(R.id.Number);
+                String phone=Ph.getText().toString();
                 if (db.getnumber(phone))
                 {
-                Cursor cursor=db.getPendingIntent(phone);
-                if(cursor.getCount()!=0) {
+                    Cursor cursor=db.getPendingIntent(phone);
+                    if(cursor.getCount()!=0) {
 
-                    cursor.moveToFirst();
-                    String Pending_intent_to_on = cursor.getString(cursor.getColumnIndex(db.PENDING_INTENT_ON));
-                    String Pending_intent_to_off = cursor.getString(cursor.getColumnIndex(db.PENDING_INTENT_OFF));
+                        cursor.moveToFirst();
+                        String Pending_intent_to_on = cursor.getString(cursor.getColumnIndex(db.PENDING_INTENT_ON));
+                        String Pending_intent_to_off = cursor.getString(cursor.getColumnIndex(db.PENDING_INTENT_OFF));
 
-                    AlarmManager aManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-                    Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-                    PendingIntent pIntent = PendingIntent.getBroadcast(getApplicationContext(),
-                            Integer.parseInt(Pending_intent_to_on),intent,0);
-                    aManager.cancel(pIntent);
+                        AlarmManager aManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                        PendingIntent pIntent = PendingIntent.getBroadcast(getApplicationContext(),
+                                Integer.parseInt(Pending_intent_to_on),intent,0);
+                        aManager.cancel(pIntent);
 
-                    PendingIntent pIntent_off = PendingIntent.getBroadcast(getApplicationContext(),
-                            Integer.parseInt(Pending_intent_to_off),intent,0);
-                    aManager.cancel(pIntent_off);
-                    Ph.setText("");
-                    Toast.makeText(CancelAlarm.this, "Alarm cleared", Toast.LENGTH_SHORT).show();
-                    db.deleteRow(phone);
-                }
+                        PendingIntent pIntent_off = PendingIntent.getBroadcast(getApplicationContext(),
+                                Integer.parseInt(Pending_intent_to_off),intent,0);
+                        aManager.cancel(pIntent_off);
+                        Ph.setText("");
+                        Toast.makeText(CancelAlarm.this, "Alarm cleared", Toast.LENGTH_SHORT).show();
+                        db.deleteRow(phone);
+                    }
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "No alarms to clear...!!", Toast.LENGTH_SHORT).show();
