@@ -20,6 +20,7 @@ public class AddAlarm extends AppCompatActivity {
     private String POWERON="ON";
     private String PUMPOFF="OFF";
     private String intent_off="000";
+    private String time_off="000";
 
 
 
@@ -47,7 +48,7 @@ public class AddAlarm extends AppCompatActivity {
         bt_ON=findViewById(R.id.ON);
         bt_OFF=findViewById(R.id.OFF);
 
-        Calendar now=Calendar.getInstance();
+        final Calendar now=Calendar.getInstance();
         setTime=findViewById(R.id.PickTime);
         setTime.setCurrentHour(now.get(Calendar.HOUR_OF_DAY));
         setTime.setCurrentMinute(now.get(Calendar.MINUTE));
@@ -64,7 +65,15 @@ public class AddAlarm extends AppCompatActivity {
 
                     cal.set(Calendar.HOUR_OF_DAY, setTime.getCurrentHour());
                     cal.set(Calendar.MINUTE, setTime.getCurrentMinute());
-                    Toast.makeText(context, "Alarm is set @" + cal.getTime(), Toast.LENGTH_SHORT).show();
+                    cal.set(Calendar.SECOND,00);
+
+
+                    if (cal.compareTo(now) <= 0) {
+                        //Today Set time passed, count to tomorrow
+                        cal.add(Calendar.DATE, 1);
+                    }
+                    String time=cal.getTime().toString();
+                    Toast.makeText(context, "Alarm is set @" + time, Toast.LENGTH_SHORT).show();
 
                     AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
@@ -76,7 +85,7 @@ public class AddAlarm extends AppCompatActivity {
                     myIntent.putExtra("Number", PhNo);
 
                     int alarmID = (int) cal.getTimeInMillis();
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, myIntent, 0);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
                     assert manager != null;
@@ -91,15 +100,16 @@ public class AddAlarm extends AppCompatActivity {
                     if(mFlag) {
 
 
-                            db.insertUserDetails(num,POWERON , PUMPOFF, alarmID_to_on,intent_off);
+                            db.insertUserDetails(num,POWERON , PUMPOFF, alarmID_to_on,intent_off,time,time_off);
 
                     }
                     else
                     {
                         if (db.getnumber(num) == true) {
                             db.addPendingIntent_ON(num, alarmID_to_on);
+                            db.addTime_ON(num,time);
                         } else {
-                            db.insertUserDetails(num, POWERON, PUMPOFF, alarmID_to_on,intent_off);
+                            db.insertUserDetails(num, POWERON, PUMPOFF, alarmID_to_on,intent_off,time,time_off);
                         }
 
                     }
@@ -120,9 +130,18 @@ public class AddAlarm extends AppCompatActivity {
                     {
                     cal.set(Calendar.HOUR_OF_DAY, setTime.getCurrentHour());
                     cal.set(Calendar.MINUTE, setTime.getCurrentMinute());
-                    Toast.makeText(context, "Alarm is set @" + cal.getTime(), Toast.LENGTH_SHORT).show();
+                    cal.set(Calendar.SECOND,00);
 
-                    AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                        if (cal.compareTo(now) <= 0) {
+                            //Today Set time passed, count to tomorrow
+                            cal.add(Calendar.DATE, 1);
+                        }
+
+                        String time=cal.getTime().toString();
+                        Toast.makeText(context, "Alarm is set @" + time, Toast.LENGTH_SHORT).show();
+
+
+                        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
 
                     Intent myIntent = new Intent(context, AlarmReceiver.class);
@@ -132,7 +151,7 @@ public class AddAlarm extends AppCompatActivity {
                     myIntent.putExtra("Number", PhNo);
 
                     int alarmID = (int) cal.getTimeInMillis();
-                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, myIntent, 0);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
                     assert manager != null;
@@ -145,6 +164,7 @@ public class AddAlarm extends AppCompatActivity {
 
 
                     db.addPendingIntent_OFF(num,alarmID_to_off);
+                    db.addTime_OFF(num,time);
                     }
                     else {
                         Toast.makeText(context, "First set time to switch on the pump", Toast.LENGTH_SHORT).show();

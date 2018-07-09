@@ -21,6 +21,8 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String PUMP = "pump";
     public static final String PENDING_INTENT_ON="alarmid1";
     public static final String PENDING_INTENT_OFF="alarmid2";
+    public static final String TIME_ON = "time_on";
+    public static final String TIME_OFF = "time_off";
 
     public DBManager(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -35,7 +37,9 @@ public class DBManager extends SQLiteOpenHelper {
                 + POWER + " text,"
                 + PUMP + " text,"
                 + PENDING_INTENT_ON +" text,"
-                + PENDING_INTENT_OFF +" text)");
+                + PENDING_INTENT_OFF +" text,"
+                + TIME_ON +" text,"
+                + TIME_OFF +"text)");
 
     }
 
@@ -49,7 +53,7 @@ public class DBManager extends SQLiteOpenHelper {
         int numOfRows = (int) DatabaseUtils.queryNumEntries(sqLiteDatabase, TABLE_SMS);
         return numOfRows;
     }
-    public boolean insertUserDetails(String no,String power, String pump, String indent_to_on, String intent_to_off) {
+    public boolean insertUserDetails(String no,String power, String pump, String indent_to_on, String intent_to_off, String time_on, String time_off) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -60,6 +64,8 @@ public class DBManager extends SQLiteOpenHelper {
         contentValues.put(PUMP, pump);
         contentValues.put(PENDING_INTENT_ON,indent_to_on);
         contentValues.put(PENDING_INTENT_ON,intent_to_off);
+        contentValues.put(TIME_ON, time_on);
+        contentValues.put(TIME_OFF, time_off);
 
         db.insert(TABLE_SMS, null, contentValues);
         return  true;
@@ -121,6 +127,22 @@ public class DBManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(PENDING_INTENT_OFF, pending);
+        db.update(TABLE_SMS,contentValues,MOBILE_NO+"="+no,null);
+
+    }
+
+    public void addTime_ON(String no, String time) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TIME_ON, time);
+        db.update(TABLE_SMS,contentValues,MOBILE_NO+"="+no,null);
+
+    }
+
+    public void addTime_OFF(String no, String time) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TIME_OFF, time);
         db.update(TABLE_SMS,contentValues,MOBILE_NO+"="+no,null);
 
     }
