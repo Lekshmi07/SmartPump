@@ -33,7 +33,7 @@ public class DBManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL("create table " + TABLE_SMS + "("
-                + MOBILE_NO + " text primary key,"
+                + MOBILE_NO + " text ,"
                 + POWER + " text,"
                 + PUMP + " text,"
                 + PENDING_INTENT_ON +" text,"
