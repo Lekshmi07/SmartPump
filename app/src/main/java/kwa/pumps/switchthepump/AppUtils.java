@@ -34,22 +34,27 @@ public class AppUtils
 
         try {
 
+            String status=number.substring(0,10);
+            CheckPower cp=new CheckPower();
+            if (cp.check(status)) {
 
-            String num="tel:"+number;
-            Uri uri = Uri.parse(num);
-            Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show();
-            Toast.makeText(context, num, Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(Intent.ACTION_CALL, uri);
+                String num = "tel:" + number;
+                Uri uri = Uri.parse(num);
+                Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, num, Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(Intent.ACTION_CALL, uri);
 
-            if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M
-                    || ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                Log.i(TAG, "makeCall: Calling Phone activity");
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(i);
-            } else {
-                Log.e(TAG, "makeCall: No permission");
-                Toast.makeText(context, "No permission for Phone", Toast.LENGTH_SHORT).show();
+                if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+                        || ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                    Log.i(TAG, "makeCall: Calling Phone activity");
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(i);
+                } else {
+                    Log.e(TAG, "makeCall: No permission");
+                    Toast.makeText(context, "No permission for Phone", Toast.LENGTH_SHORT).show();
+                }
             }
+
         }
         catch (ActivityNotFoundException e)
         {
