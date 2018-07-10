@@ -1,6 +1,5 @@
 package kwa.pumps.switchthepump;
 import android.Manifest;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -32,7 +31,7 @@ public class AppUtils
                             .replace("_", "%5F").replace("`", "%60").replace("{", "%7B")
                             .replace("|", "%7C").replace("}", "%7D"));
 
-        try {
+
 
             String status=number.substring(0,10);
             CheckPower cp=new CheckPower();
@@ -55,12 +54,8 @@ public class AppUtils
                 }
             }
 
-        }
-        catch (ActivityNotFoundException e)
-        {
-            Toast.makeText(context, "Activity Not Found", Toast.LENGTH_SHORT).show();
-        }
-                } catch (Exception e) {
+            }
+            catch (Exception e) {
                     //getAlertDialog().setMessage("Invalid number");
                     e.printStackTrace();
                 }
