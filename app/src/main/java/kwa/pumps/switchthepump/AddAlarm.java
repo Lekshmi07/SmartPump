@@ -17,7 +17,7 @@ import java.util.Calendar;
 
 public class AddAlarm extends AppCompatActivity {
 
-    private String POWERON="OFF";
+    private String POWERON="ON";
     private String PUMPOFF="OFF";
     private String intent_off="000";
     private String time_off="000";
