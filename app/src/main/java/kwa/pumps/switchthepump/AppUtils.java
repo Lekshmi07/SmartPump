@@ -33,12 +33,14 @@ public class AppUtils
 
 
 
-            String status=number.substring(0,10);
-            CheckPower cp=new CheckPower();
-            if (cp.check(status)) {
+
+            Toast.makeText(context, "In apputils", Toast.LENGTH_SHORT).show();
+
+
 
                 String num = "tel:" + number;
                 Uri uri = Uri.parse(num);
+
                 Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(context, num, Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(Intent.ACTION_CALL, uri);
@@ -47,12 +49,13 @@ public class AppUtils
                         || ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
                     Log.i(TAG, "makeCall: Calling Phone activity");
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Toast.makeText(context, "Hello", Toast.LENGTH_SHORT).show();
                     context.startActivity(i);
                 } else {
                     Log.e(TAG, "makeCall: No permission");
                     Toast.makeText(context, "No permission for Phone", Toast.LENGTH_SHORT).show();
                 }
-            }
+
 
             }
             catch (Exception e) {

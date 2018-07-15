@@ -78,8 +78,11 @@ public class DBManager extends SQLiteOpenHelper {
         if (res.getCount()==0)
         {
             return false;
+        }else
+        {
+            return true;
         }
-        return true;
+
     }
 
     public Cursor getPowerStatus(String no) {
