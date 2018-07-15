@@ -101,7 +101,6 @@ public class AddAlarm extends AppCompatActivity {
 
 
                         db.insertUserDetails(num,POWERON , PUMPOFF, alarmID_to_on,intent_off,time,time_off);
-
                     }
                     else
                     {

@@ -16,6 +16,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "KWA.db";
     public static final String TABLE_SMS = "sms_table";
+    public static final String ID="id";
     public static final String MOBILE_NO = "phone";
     public static final String POWER = "power";
     public static final String PUMP = "pump";
@@ -32,14 +33,14 @@ public class DBManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("create table " + TABLE_SMS + "("
-                + MOBILE_NO + " text ,"
+        db.execSQL("create table " + TABLE_SMS + "(" + ID+" integer primary key,"
+                + MOBILE_NO + " text,"
                 + POWER + " text,"
                 + PUMP + " text,"
                 + PENDING_INTENT_ON +" text,"
                 + PENDING_INTENT_OFF +" text,"
                 + TIME_ON +" text,"
-                + TIME_OFF +"text)");
+                + TIME_OFF +" text)");
 
     }
 
