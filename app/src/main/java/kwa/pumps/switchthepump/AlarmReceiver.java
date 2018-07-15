@@ -49,7 +49,7 @@ public class AlarmReceiver extends BroadcastReceiver
             else
             {
                 Snooze sn=new Snooze();
-                sn.snooze(No);
+                sn.snooze(No,context);
             }
         }
 
