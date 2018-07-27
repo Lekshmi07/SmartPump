@@ -1,6 +1,5 @@
 package kwa.pumps.switchthepump;
 
-import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +7,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
+import kwa.pumps.switchthepump.database.DBManager;
 
 /**
  * Created by Lekshmi on 04-07-2018.

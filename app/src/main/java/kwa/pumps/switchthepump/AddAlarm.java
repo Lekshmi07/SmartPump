@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +13,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
+
+import kwa.pumps.switchthepump.database.DBManager;
 
 public class AddAlarm extends AppCompatActivity {
 
@@ -80,7 +81,7 @@ public class AddAlarm extends AppCompatActivity {
 
                     Intent myIntent = new Intent(context, AlarmReceiver.class);
 
-                    String num=Phone.getText().toString();
+                    String num = Phone.getText().toString();
                     String PhNo = num+",1";
                     myIntent.putExtra("Number", PhNo);
 
@@ -100,7 +101,7 @@ public class AddAlarm extends AppCompatActivity {
                     if(mFlag) {
 
 
-                        db.insertUserDetails(num,POWERON , PUMPOFF, alarmID_to_on,intent_off,time,time_off);
+                        db.insertUserDetails(num,POWERON , PUMPOFF, alarmID_to_on,"", "", "", "", "", intent_off,time,time_off);
                     }
                     else
                     {
@@ -108,7 +109,7 @@ public class AddAlarm extends AppCompatActivity {
                             db.addPendingIntent_ON(num, alarmID_to_on);
                             db.addTime_ON(num,time);
                         } else {
-                            db.insertUserDetails(num, POWERON, PUMPOFF, alarmID_to_on,intent_off,time,time_off);
+                            db.insertUserDetails(num, POWERON, PUMPOFF, alarmID_to_on,"", "", "", "", "", intent_off,time,time_off);
                         }
 
                     }

@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import kwa.pumps.switchthepump.database.DBManager;
+
 public class CancelAlarm extends AppCompatActivity {
 
     Button cancel;

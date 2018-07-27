@@ -1,4 +1,4 @@
-package kwa.pumps.switchthepump;
+package kwa.pumps.switchthepump.database;
 
 /**
  * Created by Lekshmi on 04-07-2018.
@@ -20,6 +20,11 @@ public class DBManager extends SQLiteOpenHelper {
     public static final String MOBILE_NO = "phone";
     public static final String POWER = "power";
     public static final String PUMP = "pump";
+    public static final String MODE = "mode";
+    public static final String ERR = "err";
+    public static final String EVENTHRS = "eventhrs";
+    public static final String AUTO = "auto";
+    public static final String TM = "tm";
     public static final String PENDING_INTENT_ON="alarmid1";
     public static final String PENDING_INTENT_OFF="alarmid2";
     public static final String TIME_ON = "time_on";
@@ -37,11 +42,15 @@ public class DBManager extends SQLiteOpenHelper {
                 + MOBILE_NO + " text,"
                 + POWER + " text,"
                 + PUMP + " text,"
+                + MODE + " text,"
+                + ERR + " text,"
+                + EVENTHRS + " text,"
+                + AUTO + " text,"
+                + TM + " text,"
                 + PENDING_INTENT_ON +" text,"
                 + PENDING_INTENT_OFF +" text,"
                 + TIME_ON +" text,"
                 + TIME_OFF +" text)");
-
     }
 
     @Override
@@ -54,7 +63,9 @@ public class DBManager extends SQLiteOpenHelper {
         int numOfRows = (int) DatabaseUtils.queryNumEntries(sqLiteDatabase, TABLE_SMS);
         return numOfRows;
     }
-    public boolean insertUserDetails(String no,String power, String pump, String indent_to_on, String intent_to_off, String time_on, String time_off) {
+    public boolean insertUserDetails(String no,String power, String pump, String indent_to_on,
+                                     String mode, String err, String eventhrs, String auto, String tm,
+                                     String intent_to_off, String time_on, String time_off) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -63,6 +74,11 @@ public class DBManager extends SQLiteOpenHelper {
         contentValues.put(MOBILE_NO, no);
         contentValues.put(POWER, power);
         contentValues.put(PUMP, pump);
+        contentValues.put(MODE, mode);
+        contentValues.put(ERR, err);
+        contentValues.put(EVENTHRS, eventhrs);
+        contentValues.put(AUTO, auto);
+        contentValues.put(TM, tm);
         contentValues.put(PENDING_INTENT_ON,indent_to_on);
         contentValues.put(PENDING_INTENT_ON,intent_to_off);
         contentValues.put(TIME_ON, time_on);
@@ -148,7 +164,6 @@ public class DBManager extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TIME_OFF, time);
         db.update(TABLE_SMS,contentValues,MOBILE_NO+"="+no,null);
-
     }
 
     public void deleteRow(String number)
@@ -157,6 +172,7 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL("delete from " + TABLE_SMS+ " WHERE "+MOBILE_NO+"='"+number+"'");
         db.close();
     }
+
   /*  public Cursor getDataUsername( String name) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select " + POCKET_DIARY_REGISTRATION_COLUMN_USERNAME + " from " + POCKET_DIARY_TABLE_REGISTRATION + " where " + POCKET_DIARY_REGISTRATION_COLUMN_USERNAME + " = " + "'" + name + "'", null);
