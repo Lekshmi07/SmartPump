@@ -179,4 +179,10 @@ public class DBManager extends SQLiteOpenHelper {
         return res;
     }*/
 
+    public Cursor viewData() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select " + MOBILE_NO +"," +POWER +"," +PUMP +"," +TIME_ON +"," +TIME_OFF + " from " + TABLE_SMS , null);
+        return res;
+    }
+
 }

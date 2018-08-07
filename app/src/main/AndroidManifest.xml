@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kwa.pumps.switchthepump">
 
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
 
     <application
@@ -28,11 +28,13 @@
             </intent-filter>
         </receiver>
 
-
         <activity android:name=".AddAlarm" />
-        <activity android:name=".CancelAlarm"></activity>
+        <activity android:name=".CancelAlarm" />
+
         <receiver android:name=".AlarmReceiver" />
         <receiver android:name=".MessageReceiver" />
+
+        <activity android:name=".ViewShift"></activity>
     </application>
 
 </manifest>

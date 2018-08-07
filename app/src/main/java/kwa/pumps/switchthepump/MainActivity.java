@@ -26,9 +26,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button add,cancel;
+        Button add,cancel,view;
         add=findViewById(R.id.Add_Shift);
         cancel=findViewById(R.id.Cancel_shift);
+        view=findViewById(R.id.View);
 
 
         add.setOnClickListener(new View.OnClickListener() {
@@ -39,13 +40,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent=new Intent(MainActivity.this,CancelAlarm.class);
+                Intent intent=new Intent(MainActivity.this,ViewShift.class);
                 startActivity(intent);
 
+            }
+        });
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this,AddAlarm.class);
+                startActivity(intent);
             }
         });
 
