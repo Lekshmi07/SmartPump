@@ -7,8 +7,8 @@
     tools:context="kwa.pumps.switchthepump.ViewShift">
 
     <ScrollView
-        android:layout_width="368dp"
-        android:layout_height="495dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
@@ -24,27 +24,33 @@
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <TextView
-                android:text="Number"
-                android:padding="3dip"
-                android:id="@+id/Number"/>
+                android:layout_height="wrap_content">
+
                 <TextView
-                    android:text="Power"
-                    android:padding="3dip"
-                    android:id="@+id/power"/>
+                    android:id="@+id/Number"
+                    android:padding="5dip"
+
+                    android:text="Number" />
+
                 <TextView
-                    android:text="Pump"
-                    android:padding="3dip"
-                    android:id="@+id/pump"/>
+                    android:id="@+id/power"
+                    android:padding="5dip"
+                    android:text="Power" />
+
                 <TextView
-                    android:text="Time to ON"
-                    android:padding="3dip"
-                    android:id="@+id/ON"/>
+                    android:id="@+id/pump"
+                    android:padding="5dip"
+                    android:text="Pump" />
+
                 <TextView
-                    android:text="Time to OFF"
-                    android:padding="3dip"
-                    android:id="@+id/OFF"/>
+                    android:id="@+id/ON"
+                    android:padding="5dip"
+                    android:text="Time to ON" />
+
+                <TextView
+                    android:id="@+id/OFF"
+                    android:padding="5dip"
+                    android:text="Time to OFF" />
             </TableRow>
 
         </TableLayout>

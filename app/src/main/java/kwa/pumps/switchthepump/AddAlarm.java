@@ -74,6 +74,7 @@ public class AddAlarm extends AppCompatActivity {
                         cal.add(Calendar.DATE, 1);
                     }
                     String time=cal.getTime().toString();
+                    time=time.substring(11,19) ;
                     Toast.makeText(context, "Alarm is set @" + time, Toast.LENGTH_SHORT).show();
 
                     AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -138,6 +139,7 @@ public class AddAlarm extends AppCompatActivity {
                         }
 
                         String time=cal.getTime().toString();
+                        time=time.substring(11,19) ;
                         Toast.makeText(context, "Alarm is set @" + time, Toast.LENGTH_SHORT).show();
 
 
